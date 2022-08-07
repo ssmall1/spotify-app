@@ -3,6 +3,10 @@ const express = require('express');
 const app = express();
 const port = 8888;
 
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+
 /*
 app.METHOD(PATH, HANDLER);
 http request method ex. get, post, put, delete
