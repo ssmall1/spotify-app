@@ -38,5 +38,3 @@ app.get('/awesome-generator', (req, res) => {
 app.listen(port, () => {
   console.log(`Express app listening at http://localhost:${port}`)
 });
-
-// test change
