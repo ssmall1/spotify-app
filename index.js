@@ -1,7 +1,9 @@
 require('dotenv').config();
 const express = require('express');
+const querystring = require('query-string');
 const app = express();
 const port = 8888;
+
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -35,9 +37,22 @@ app.get('/', (req, res) => {
   res.json(data);
 });
 
-app.get('/awesome-generator', (req, res) => {
-  const { name, isAwesome } = req.query;
-  res.send(`${name} is ${JSON.parse(isAwesome) ? 'really' : 'not'} awesome`);
+// app.get('/awesome-generator', (req, res) => {
+//   const { name, isAwesome } = req.query;
+//   res.send(`${name} is ${JSON.parse(isAwesome) ? 'really' : 'not'} awesome`);
+// });
+
+app.get('/login', (req, res) => {
+  // res.redirect('https://accounts.spotify.com/authorize' +
+  // querystring.stringify({
+  //   response_type: 'code',
+  //   client_id: CLIENT_ID,
+  //   redirect_uri: REDIRECT_URI,
+  // }));
+
+  res.redirect(`https://accounts.spotify.com/authorize?
+                client_id=${CLIENT_ID}&response_type=code
+                &redirect_uri=${REDIRECT_URI}`)
 });
 
 app.listen(port, () => {
