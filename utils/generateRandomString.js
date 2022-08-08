@@ -1,4 +1,4 @@
-export default generateRandomString = (length) => {
+const generateRandomString = (length) => {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
   for (let i = 0; i < length; i++) {
@@ -6,3 +6,7 @@ export default generateRandomString = (length) => {
   }
   return text;
 };
+
+module.exports = {
+  generateRandomString
+}
