@@ -4,29 +4,10 @@ const querystring = require('query-string');
 const app = express();
 const port = 8888;
 
-
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
-/*
-app.METHOD(PATH, HANDLER);
-http request method ex. get, post, put, delete
-url that directs to the url path on the server
-handler callback function run every time user hits url
-*/
-
-/* req and res are standard but can call whatever you want 
-- but they will be request and response in that order no matter
-
-req. object is a callback object with information 
-- req.body - values of info
-- req.method - method on request
-- req.params - object with params mapped to named route parameters
-- req.query - object containing a property for each query string parameter in route
-    -  http://localhost:8888/awesome-generator?name=Schuler&isAwesome=false
-    - need to JSON.parse bc query parameters always come back as strings not booleans
-*/
 app.get('/', (req, res) => {
   // res.send('Hello World!');
   const data = { 
@@ -37,22 +18,20 @@ app.get('/', (req, res) => {
   res.json(data);
 });
 
-// app.get('/awesome-generator', (req, res) => {
-//   const { name, isAwesome } = req.query;
-//   res.send(`${name} is ${JSON.parse(isAwesome) ? 'really' : 'not'} awesome`);
-// });
+app.get('/login2', (req, res) => {
+  // const state = generateRandomString
+  const queryParams = querystring.stringify({
+    client_id: CLIENT_ID,
+    response_type: 'code',
+    redirect_uri: REDIRECT_URI,
+  });
 
-app.get('/login', (req, res) => {
-  // res.redirect('https://accounts.spotify.com/authorize' +
-  // querystring.stringify({
-  //   response_type: 'code',
-  //   client_id: CLIENT_ID,
-  //   redirect_uri: REDIRECT_URI,
-  // }));
+  res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 
-  res.redirect(`https://accounts.spotify.com/authorize?
-                client_id=${CLIENT_ID}&response_type=code
-                &redirect_uri=${REDIRECT_URI}`)
+  // res.redirect(`https://accounts.spotify.com/authorize?
+  //               client_id=${CLIENT_ID}&response_type=code
+  //               &redirect_uri=${REDIRECT_URI}`)
+
 });
 
 app.listen(port, () => {
