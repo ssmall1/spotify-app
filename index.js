@@ -65,13 +65,26 @@ app.get('/callback', (req, res) => {
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       Authorization: `Basic ${new Buffer.from(
-        `${CLIENT_ID}: ${CLIENT_SECRET}`
+        `${CLIENT_ID}:${CLIENT_SECRET}`
       ).toString('base64')}`
     }
   })
     .then((response) => {
       if (response.status === 200) {
-        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+        const { access_token, token_type } = response.data;
+
+        axios.get('https://api.spotify.com/v1/me', {
+          headers: {
+            Authorization: `${token_type} ${access_token}`
+          }
+        })
+        .then(response => {
+          res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+        })
+        .catch(error => {
+          res.send(error);
+        });
+
       } else {
         res.send(response);
       }
