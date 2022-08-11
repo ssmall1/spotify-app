@@ -7,12 +7,4 @@ const getAccessToken = () => {
   return accessToken;
 };
 
-
-// if (refreshToken) {
-//   fetch(`/refresh_token?refresh_token=${refreshToken}`)
-//     .then(res => res.json())
-//     .then(data => console.log(data))
-//     .catch(err => console.error(err))
-// }
-
 export const accessToken = getAccessToken();
