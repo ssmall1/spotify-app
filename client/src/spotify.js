@@ -31,11 +31,24 @@ const hasTokenExpired = () => {
 };
 
 /**
+ * Clear out all localStorage items we've set and reload the page
+ * @returns {void}
+ */
+ export const logout = () => {
+  // Clear all localStorage items
+  for (const property in LOCALSTORAGE_KEYS) {
+    window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
+  }
+  // Navigate to homepage
+  window.location = window.location.origin;
+};
+
+/**
  * Use the refresh token in localStorage to hit the /refresh_token endpoint
  * in our Node app, then update values in localStorage with data from response.
  * @returns {void}
  */
-const refreshToken = async () => {
+ const refreshToken = async () => {
   try {
     // Logout if there's no refresh token stored or we've managed to get into a reload infinite loop
     if (!LOCALSTORAGE_VALUES.refreshToken ||
