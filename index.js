@@ -83,11 +83,12 @@ app.get('/callback', (req, res) => {
         //   res.send(error);
         // });
 
-        const { access_token, refresh_token } = response.data;
+        const { access_token, refresh_token, expires_in } = response.data;
 
         const queryParams = querystring.stringify({
           access_token, 
           refresh_token,
+          expires_in,
         });
 
         res.redirect(`http://localhost:3001/?${queryParams}`);
