@@ -90,6 +90,11 @@ const hasTokenExpired = () => {
   const hasError = urlParams.get('error');
 
   // If there's an error OR the token in localStorage has expired, refresh the token
+
+  /* Note that local storage stores everything as strings, so we need to make sure we are 
+  explicit when checking for falsy values. For example, the string 'undefined' is truthy, 
+  so we need to make sure we account for that in our conditionals. We don't want our app 
+  trying to use 'undefined' as a valid Spotify access token */
   if (hasError || hasTokenExpired() || LOCALSTORAGE_VALUES.accessToken === 'undefined') {
     refreshToken();
   }
