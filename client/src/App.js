@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
 } from 'react-router-dom';
-import { accessToken, logout, getCurrentUserProfile } from './spotify';
+import { accessToken, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
 import './App.css';
+
+// COMPONENTS
+import TopArtists from './components/TopArtists';
+import TopTracks from './components/TopTracks';
+import Playlist from './components/Playlist';
+import Playlists from './components/Playlists';
+import HomePage from './components/HomePage';
 
 function App() {
 
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
 
-
+  console.log(profile, "PROFILE IN APP")
   useEffect(() => {
     setToken(accessToken);
 
@@ -24,7 +31,6 @@ function App() {
 
     catchErrors(fetchData());
   }, []);
-
   return (
     <div className="App">
       <header className="App-header">
@@ -33,45 +39,35 @@ function App() {
             Log in to Spotify
           </a>
         ) : (
-          <Router>
+          <BrowserRouter>
             <Routes>
-              <Route path="/top-artists">
-                <>
-                  <h1>Top Artists</h1>
-                </>
+              <Route 
+                path="/top-artists"
+                element={<TopArtists />}
+                >
               </Route>
-              <Route path="/top-tracks">
-                <>
-                  <h1>Top Tracks</h1>
-                </>
+              <Route
+                path="/top-tracks"
+                element={<TopTracks />}
+                >
               </Route>
-              <Route path="/playlists/:id">
-                <>
-                  <h1>Playlist</h1>
-                </>
+              <Route 
+                path="/playlists/:id"
+                element={<Playlist />}
+                >
               </Route>
-              <Route path="/playlists">
-                <>
-                  <h1>Playlists</h1>
-                </>
+              <Route
+                path="/playlists"
+                element={<Playlists />}
+              >
               </Route>
-              <Route path="/">
-                <>
-                  <button onClick={logout}>Log Out</button>
-
-                  {profile && (
-                    <div>
-                      <h1>{profile.display_name}</h1>
-                      <p>{profile.followers.total} Followers</p>
-                      {profile.images.length && profile.images[0].url && (
-                        <img src={profile.images[0].url} alt="Avatar"/>
-                      )}
-                    </div>
-                  )}
-                </>
+              <Route
+                path="/"
+                element={<HomePage profile={profile} />}
+                >
               </Route>
             </Routes>
-          </Router>
+          </BrowserRouter>
         )}
       </header>
     </div>
