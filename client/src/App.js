@@ -5,9 +5,6 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom';
-import { accessToken, getCurrentUserProfile } from './spotify';
-import { catchErrors } from './utils';
-import './App.css';
 
 // COMPONENTS
 import TopArtists from './components/TopArtists';
@@ -15,6 +12,25 @@ import TopTracks from './components/TopTracks';
 import Playlist from './components/Playlist';
 import Playlists from './components/Playlists';
 import HomePage from './components/HomePage';
+
+// SPOTIFY
+import { accessToken, getCurrentUserProfile } from './spotify';
+
+// UTILS
+import { catchErrors } from './utils';
+
+// STYLED
+import styled from 'styled-components/macro';
+import { GlobalStyle } from './styles';
+
+const StyledLoginButton = styled.a`
+  background-color: var(--green);
+  color: var(--white);
+  padding: 10px 20px;
+  margin: 20px;
+  border-radius: 30px;
+  display: inline-block;
+`;
 
 function App() {
 
@@ -47,11 +63,13 @@ function App() {
 
   return (
     <div className="App">
+      <GlobalStyle />
+
       <header className="App-header">
       {!token ? (
-          <a className="App-link" href="http://localhost:8888/login">
+          <StyledLoginButton className="App-link" href="http://localhost:8888/login">
             Log in to Spotify
-          </a>
+          </StyledLoginButton>
         ) : (
           <BrowserRouter>
             <ScrollToTop />
